@@ -4,3 +4,6 @@ sample.log
 suricata-fields.txt
 suricata-raw.json
 target
+.classpath
+.project
+.settings
