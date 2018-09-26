@@ -1,0 +1,75 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.redhat.hacep</groupId>
+  <artifactId>rocknsm</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+
+  <name>RockNSM reader</name>
+
+  <dependencies>
+
+    <!-- Jackson -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.9.5</version>
+    </dependency>
+
+    <!-- Camel -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-core</artifactId>
+      <version>2.21.0.fuse-710018-redhat-00001</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-spring</artifactId>
+      <version>2.21.0.fuse-710018-redhat-00001</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-kafka</artifactId>
+      <version>2.21.0.fuse-710018-redhat-00001</version>
+    </dependency>
+
+    <!-- logging -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.7.25</version>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.17</version>
+    </dependency>
+
+    <!--  model -->
+    <dependency>
+      <groupId>it.redhat.jdg.examples</groupId>
+      <artifactId>hacep-model</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+
+  <!-- to consume messages run `mvn compile exec:java` -->
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <configuration>
+          <mainClass>org.apache.camel.spring.Main</mainClass>
+          <includePluginDependencies>false</includePluginDependencies>
+          <commandlineArgs>-ac rocknsm.xml</commandlineArgs>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
+

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+  <!-- setup kafka component -->
+  <bean id="kafka" class="org.apache.camel.component.kafka.KafkaComponent">
+    <!-- configure common settings for each endpoint -->
+    <property name="brokers" value="localhost:9092"/>
+  </bean>
+
+  <bean id="broFactProcessor" class="com.redhat.camel.BroFactProcessor"/>
+  <bean id="suricataFactProcessor" class="com.redhat.camel.SuricataFactProcessor"/>
+
+  <camelContext id="RockNSM" xmlns="http://camel.apache.org/schema/spring">
+
+    <route id="bro-raw">
+      <from uri="kafka:bro-raw?groupId=mygroup"/>
+      <process ref="broFactProcessor"/>
+      <log message="bro-raw: ${body}"/>
+    </route>
+
+    <route id="fsf-raw">
+      <from uri="kafka:fsf-raw?groupId=mygroup"/>
+      <log message="fsf-raw: ${body}"/>
+    </route>
+
+    <route id="suricata-raw">
+      <from uri="kafka:suricata-raw?groupId=mygroup"/>
+      <process ref="suricataFactProcessor"/>
+      <log message="suricata-raw: ${body}"/>
+    </route>
+  </camelContext>
+
+</beans>
