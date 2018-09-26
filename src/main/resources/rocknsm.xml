@@ -12,6 +12,28 @@
     <property name="brokers" value="localhost:9092"/>
   </bean>
 
+  <!-- setup AMQ component -->
+  <bean id="jmsConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+    <property name="brokerURL" value="tcp://localhost:61616"/>
+    <property name="userName" value="admin"/>
+    <property name="password" value="admin"/>
+  </bean>
+
+  <bean id="pooledConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory" init-method="start" destroy-method="stop">
+    <property name="maxConnections" value="8"/>
+    <property name="maximumActiveSessionPerConnection" value="500"/>
+    <property name="connectionFactory" ref="jmsConnectionFactory"/>
+  </bean>
+
+  <bean id="jmsConfig" class="org.apache.camel.component.jms.JmsConfiguration">
+    <property name="connectionFactory" ref="pooledConnectionFactory"/>
+    <property name="concurrentConsumers" value="10"/>
+  </bean>
+
+  <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+    <property name="configuration" ref="jmsConfig"/>
+  </bean> 
+
   <bean id="broFactProcessor" class="com.redhat.camel.BroFactProcessor"/>
   <bean id="suricataFactProcessor" class="com.redhat.camel.SuricataFactProcessor"/>
 
@@ -19,8 +41,10 @@
 
     <route id="bro-raw">
       <from uri="kafka:bro-raw?groupId=mygroup"/>
-      <process ref="broFactProcessor"/>
       <log message="bro-raw: ${body}"/>
+      <process ref="broFactProcessor"/>
+      <log message="bro-object: ${body}"/>
+      <to uri="activemq:queue:facts"/>
     </route>
 
     <route id="fsf-raw">
@@ -30,8 +54,10 @@
 
     <route id="suricata-raw">
       <from uri="kafka:suricata-raw?groupId=mygroup"/>
-      <process ref="suricataFactProcessor"/>
       <log message="suricata-raw: ${body}"/>
+      <process ref="suricataFactProcessor"/>
+      <log message="suricata-object: ${body}"/>
+      <to uri="activemq:queue:facts"/>
     </route>
   </camelContext>
 
