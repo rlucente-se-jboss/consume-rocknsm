@@ -27,7 +27,7 @@ public abstract class AbstractRockNSMProcessor implements Processor {
 		Date timestamp = Date.from(Instant.parse(objTree.at(timestampJsonPath).asText()));
 
 		inMessage.setHeader("JMSXGroupID", groupId);
-		inMessage.setHeader("JMSXGroupSeq", id);
+		inMessage.setHeader("JMSXGroupSeq", Long.toString(id));
 
 		Object factObject = factClazz.getConstructor(long.class, String.class, String.class, Date.class).newInstance(id,
 				jsonString, groupId, timestamp);
