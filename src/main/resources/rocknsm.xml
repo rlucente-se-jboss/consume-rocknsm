@@ -50,6 +50,12 @@
       <unmarshal ref="broFact"/>
       <process ref="broFactProcessor"/>
       <log message="bro-object after id: ${body}"/>
+      <setHeader headerName="JMSXGroupID">
+        <simple>${body._at_system}</simple>
+      </setHeader>
+      <setHeader headerName="JMSXGroupSeq">
+        <simple>${body.id}</simple>
+      </setHeader>
       <to uri="activemq:queue:facts"/>
     </route>
 
@@ -64,9 +70,14 @@
       <unmarshal ref="suricataFact"/>
       <process ref="suricataFactProcessor"/>
       <log message="suricata-object: ${body}"/>
+      <setHeader headerName="JMSXGroupID">
+        <simple>${body.hostname}</simple>
+      </setHeader>
+      <setHeader headerName="JMSXGroupSeq">
+        <simple>${body.id}</simple>
+      </setHeader>
       <to uri="activemq:queue:facts"/>
     </route>
-
   </camelContext>
 
 </beans>
