@@ -67,11 +67,19 @@ AMQ:
     cd hacep-eap-helper
     ./start-amq.sh
 
+Wait for AMQ to fully start.
+
 Run the following commands in a separate terminal window to launch
 the HACEP servers:
 
     cd hacep-eap-helper
     ./start-eap.sh
+
+Wait for the two EAP servers to start.  You can use the following
+command to check their status:
+
+    cd hacep-eap-helper
+    ./check-eap-status.sh
 
 Run the following commands in a separate terminal window to bridge
 RockNSM events to HACEP:
