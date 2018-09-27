@@ -12,8 +12,5 @@ public class BroFactProcessor extends AbstractRockNSMProcessor {
 		Message inMessage = exchange.getIn();
 		BroFact broFact = inMessage.getBody(BroFact.class);
 		broFact.setId(uniqueId.incrementAndGet());
-		
-		// for testing purposes
-		broFact.setTs(new Date(System.currentTimeMillis()));
 	}
 }
