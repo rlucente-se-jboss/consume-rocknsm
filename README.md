@@ -29,9 +29,10 @@ After RockNSM is installed and rebooted as a VM, do the following:
     sudo ./generate_defaults.sh
     sudo ./deploy_rock.sh
 
-    sudo -i
-    yum -y update && yum -y clean all && \
-        rm -fr /var/cache/yum && systemctl reboot
+    sudo yum -y update
+    sudo yum -y clean all
+    sudo rm -fr /var/cache/yum
+    sudo systemctl reboot
 
 ## Install HACEP on the RockNSM VM
 After the RockNSM VM is rebooted, do the following:
@@ -48,10 +49,12 @@ the following Red Hat repositories:
 
 Run the following commands to build the needed sofware:
 
+    cd
     git clone https://github.com/rlucente-se-jboss/hacep-eap-helper.git
     cd hacep-eap-helper
     ./clean.sh && ./install.sh
 
+    cd
     git clone https://github.com/rlucente-se-jboss/consume-rocknsm.git
     cd consume-rocknsm
     mvn clean install
@@ -64,7 +67,7 @@ Run the following command to launch RockNSM:
 Run the following command in a separate terminal window to launch
 AMQ:
 
-    cd hacep-eap-helper
+    cd ~/hacep-eap-helper
     ./start-amq.sh
 
 Wait for AMQ to fully start.
@@ -72,19 +75,19 @@ Wait for AMQ to fully start.
 Run the following commands in a separate terminal window to launch
 the HACEP servers:
 
-    cd hacep-eap-helper
+    cd ~/hacep-eap-helper
     ./start-eap.sh
 
 Wait for the two EAP servers to start.  You can use the following
 command to check their status:
 
-    cd hacep-eap-helper
+    cd ~/hacep-eap-helper
     ./check-eap-status.sh
 
 Run the following commands in a separate terminal window to bridge
 RockNSM events to HACEP:
 
-    cd consume-rocknsm
+    cd ~/consume-rocknsm
     mvn exec:java
 
 ## Fact and Rule Definitions
