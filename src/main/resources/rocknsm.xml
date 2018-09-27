@@ -39,11 +39,17 @@
 
   <camelContext id="RockNSM" xmlns="http://camel.apache.org/schema/spring">
 
+    <dataFormats>
+      <json id="broFact" library="Jackson" unmarshalTypeName="it.redhat.hacep.playground.rules.model.BroFact"/>
+      <json id="suricataFact" library="Jackson" unmarshalTypeName="it.redhat.hacep.playground.rules.model.SuricataFact"/>
+    </dataFormats>
+
     <route id="bro-raw">
       <from uri="kafka:bro-raw?groupId=mygroup"/>
       <log message="bro-raw: ${body}"/>
+      <unmarshal ref="broFact"/>
       <process ref="broFactProcessor"/>
-      <log message="bro-object: ${body}"/>
+      <log message="bro-object after id: ${body}"/>
       <to uri="activemq:queue:facts"/>
     </route>
 
@@ -55,10 +61,12 @@
     <route id="suricata-raw">
       <from uri="kafka:suricata-raw?groupId=mygroup"/>
       <log message="suricata-raw: ${body}"/>
+      <unmarshal ref="suricataFact"/>
       <process ref="suricataFactProcessor"/>
       <log message="suricata-object: ${body}"/>
       <to uri="activemq:queue:facts"/>
     </route>
+
   </camelContext>
 
 </beans>

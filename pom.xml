@@ -39,6 +39,11 @@
       <artifactId>activemq-camel</artifactId>
       <version>5.11.0.redhat-630347</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-jackson</artifactId>
+      <version>2.21.0.fuse-710018-redhat-00001</version>
+    </dependency>
 
     <!-- logging -->
     <dependency>
