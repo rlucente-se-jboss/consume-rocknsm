@@ -19,9 +19,9 @@ Follow the [installation guide](https://rocknsm.gitbooks.io/rocknsm-guide/conten
 to install RockNSM.  A brief summary of the installation steps
 follow.  Download the RockNSM ISO image and use it to install a
 virtual machine.  During the installation, create an unprivileged
-user and make sure that user is an administrator.  Also, accept the
-license during the install.  Make sure not to do a yum update after
-the install.
+user and make that user an administrator.  Also, accept the license
+during the install.  Make sure not to do a yum update after the
+install.
 
 After RockNSM is installed and rebooted as a VM, do the following:
 
