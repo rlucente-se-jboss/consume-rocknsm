@@ -1,5 +1,7 @@
 package com.redhat.camel;
 
+import java.util.Date;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 
