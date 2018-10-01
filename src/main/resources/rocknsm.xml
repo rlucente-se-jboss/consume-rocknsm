@@ -51,10 +51,10 @@
       <process ref="broFactProcessor"/>
       <log message="bro-object after id: ${body}"/>
       <setHeader headerName="JMSXGroupID">
-        <simple>${body._at_system}</simple>
+        <simple>${body.get_at_system}</simple>
       </setHeader>
       <setHeader headerName="JMSXGroupSeq">
-        <simple>${body.id}</simple>
+        <simple>${body.getIdAsString}</simple>
       </setHeader>
       <to uri="activemq:queue:facts"/>
     </route>
@@ -71,10 +71,10 @@
       <process ref="suricataFactProcessor"/>
       <log message="suricata-object: ${body}"/>
       <setHeader headerName="JMSXGroupID">
-        <simple>${body.hostname}</simple>
+        <simple>${body.getHostname}</simple>
       </setHeader>
       <setHeader headerName="JMSXGroupSeq">
-        <simple>${body.id}</simple>
+        <simple>${body.getIdAsString}</simple>
       </setHeader>
       <to uri="activemq:queue:facts"/>
     </route>
